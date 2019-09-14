@@ -19,4 +19,29 @@ And open the `Expo client` in your android phone.
 
 ## Arduino
 
- TODO
+Sensors used:
+- Heartbeat
+- Distance
+- UV
+- Tilt
+- Waterproof ultrasound distance
+- (Optional) Breathing measurement strap
+
+Boards used:
+3 esp8266 boards
+
+Additional accessories:
+- Water bottle
+- Hat
+
+To compile code to boards use `Arduino IDE`.
+
+## Server
+
+NodeJS HTTP server for communicating beteween arduino boards and mobile client.
+
+API:
+
+## MongoDB server
+
+NoSQL server for persisting data.
