@@ -14,7 +14,8 @@ const HEARTS_COLLECTION = 'hearts';
 const TILTS_COLLECTION = 'tilts';
 const BOTTLES_COLLECTION = 'bottles';
 
-const app = express()
+const app = express();
+// TODO use async/await api
 const mongoClient = new MongoClient(
   MONGO_DB_URL,
   {
