@@ -14,12 +14,11 @@ const styles = StyleSheet.create({
     }
 });
 
-function CardData({ title, data }) {
+function CardData({ title, data, onOpen }) {
     return (
         <View style={styles.container}>
-            <Card>
+            <Card onPress={onOpen}>
                 <Card.Content>
-
                     <Title>{title}</Title>
                     <Paragraph>
                         {data}
