@@ -21,7 +21,8 @@ function getCards(data, navigation) {
         <CardData
             onOpen={() => navigation.navigate('Graph', {
                 title: 'Ultraviolet Graph',
-                data: data.uvData
+                data: data.uvData,
+                valueLabelUnit: '%'
             })}
             key={1}
             title="Ultraviolet"
@@ -32,7 +33,8 @@ function getCards(data, navigation) {
         <CardData
             onOpen={() => navigation.navigate('Graph', {
                 title: 'Heart Rate Graph',
-                data: data.heartbeatData
+                data: data.heartbeatData,
+                valueLabelUnit: 'heartbeats per minute'
             })}
             key={2}
             title="Heart rate"
@@ -43,7 +45,8 @@ function getCards(data, navigation) {
         <CardData
             onOpen={() => navigation.navigate('Graph', {
                 title: 'Distance Graph',
-                data: data.distanceData
+                data: data.distanceData,
+                valueLabelUnit: 'meters'
             })}
             key={3}
             title="Distance"
@@ -54,7 +57,8 @@ function getCards(data, navigation) {
         <CardData
             onOpen={() => navigation.navigate('Graph', {
                 title: 'Tilt Graph',
-                data: data.tiltData
+                data: data.tiltData,
+                valueLabelUnit: '° angle'
             })}
             key={4}
             title="Tilt"
@@ -65,7 +69,8 @@ function getCards(data, navigation) {
         <CardData
             onOpen={() => navigation.navigate('Graph', {
                 title: 'Bottle Graph',
-                data: data.bottleData
+                data: data.bottleData,
+                valueLabelUnit: '% water left'
             })}
             key={5}
             title="Bottle"
@@ -145,7 +150,10 @@ HomeScreen.navigationOptions = ({ navigation }) => {
     return {
         title: 'Jarvis Mate!',
         headerRight: (
-            <Button icon="refresh" onPress={navigation.getParam('loadData')}>
+            <Button
+                icon={require('../../assets/reload.png')}
+                onPress={navigation.getParam('loadData')}
+            >
                 Refresh
             </Button>
         )

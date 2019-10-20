@@ -16,7 +16,7 @@ function getRandomIntInclusive(min, max) {
 function getRandomFloatInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Number.parseFloat(Math.random() * (max - min + 1) + min).toFixed(1); //The maximum is inclusive and the minimum is inclusive 
+    return Number.parseFloat(Number.parseFloat(Math.random() * (max - min + 1) + min).toFixed(1)); //The maximum is inclusive and the minimum is inclusive 
 }
 
 function timestampCompare(a, b) {
@@ -32,6 +32,7 @@ function timestampCompare(a, b) {
 }
 
 const USE_REAL_API = false;
+const DATA_SIZE = 20;
 const SECOND = 1000;
 
 export async function getUVData() {
@@ -41,7 +42,7 @@ export async function getUVData() {
         return await response.json();
     } else {
         // fake data: 100 uvs between 0% to 15% in 30 seconds intervals
-        return delayedPromise(500, new Array(100)
+        return delayedPromise(500, new Array(DATA_SIZE)
             .fill()
             .map((x, i, arr) => {
                 return {
@@ -49,7 +50,6 @@ export async function getUVData() {
                     value: getRandomFloatInclusive(0, 15)
                 };
             })
-            .sort(timestampCompare)
         );
     }
 }
@@ -61,7 +61,7 @@ export async function getHeartbeatData() {
         return await response.json();
     } else {
         // fake data: 100 heartbeats between 55 to 70 in 30 seconds intervals
-        return delayedPromise(1000, new Array(100)
+        return delayedPromise(1000, new Array(DATA_SIZE)
             .fill()
             .map((x, i, arr) => {
                 return {
@@ -69,7 +69,6 @@ export async function getHeartbeatData() {
                     value: getRandomIntInclusive(55, 70)
                 };
             })
-            .sort(timestampCompare)
         );
     }
 }
@@ -81,15 +80,15 @@ export async function getDistanceData() {
         return await response.json();
     } else {
         // fake data: 100 distances between 0 to 10 in 30 seconds intervals
-        return delayedPromise(1500, new Array(100)
+        return delayedPromise(1500, new Array(DATA_SIZE)
             .fill()
             .map((x, i, arr) => {
                 return {
                     timestamp: new Date(new Date().getTime() - i * 30 * SECOND),
                     value: getRandomFloatInclusive(0, 10)
-                };
+                }
             })
-            .sort(timestampCompare));
+        );
     }
 }
 
@@ -100,7 +99,7 @@ export async function getTiltData() {
         return await response.json();
     } else {
         // fake data: 100 tilts between 70 to 110 in 30 seconds intervals
-        return delayedPromise(2000, new Array(100)
+        return delayedPromise(2000, new Array(DATA_SIZE)
             .fill()
             .map((x, i, arr) => {
                 return {
@@ -108,7 +107,6 @@ export async function getTiltData() {
                     value: getRandomFloatInclusive(70, 110)
                 };
             })
-            .sort(timestampCompare)
         );
     }
 }
@@ -120,7 +118,7 @@ export async function getBottleData() {
         return await response.json();
     } else {
         // fake data: 100 bottles between 0 to 100 in 30 seconds intervals
-        return delayedPromise(2500, new Array(100)
+        return delayedPromise(2500, new Array(DATA_SIZE)
             .fill()
             .map((x, i, arr) => {
                 return {
@@ -128,7 +126,6 @@ export async function getBottleData() {
                     value: getRandomFloatInclusive(0, 100)
                 };
             })
-            .sort(timestampCompare)
         );
     }
 }
