@@ -12,10 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "moment": "^2.24.0",
     "mongodb": "^3.3.2"
   },
   "devDependencies": {
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
     "nodemon": "^1.19.2"
   }
 }
