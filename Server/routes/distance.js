@@ -1,11 +1,11 @@
 let moment = require('moment');
 let express = require('express');
 let mongo = require('../DB/mongo')
-let router = express.Router();
+let distanceRouter = express.Router();
 const DISTANCE_COLLECTION = 'distance';
 
-router.get('/',getMethod);
-router.post('/',postMethod);
+distanceRouter.get('/',getMethod);
+distanceRouter.post('/',postMethod);
 
 function getMethod(req,res){
     let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
@@ -53,4 +53,4 @@ function postMethod(req,res){
     }   
 }
 
-module.exports = router;
+module.exports = distanceRouter;

@@ -1,11 +1,11 @@
 let moment = require('moment');
 let express = require('express');
 let mongo = require('../DB/mongo')
-let router = express.Router();
+let tiltRouter = express.Router();
 const TILTS_COLLECTION = 'tilts';
 
-router.get('/',getMethod);
-router.post('/',postMethod);
+tiltRouter.get('/',getMethod);
+tiltRouter.post('/',postMethod);
 
 function getMethod(req,res){
     let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
@@ -53,4 +53,4 @@ function postMethod(req,res){
     }   
 }
 
-module.exports = router;
+module.exports = tiltRouter;
