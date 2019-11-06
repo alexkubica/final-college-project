@@ -144,26 +144,24 @@ export async function getDistanceData() {
 
 export async function getTiltData() {
     if (USE_REAL_API) {
-        try {
-            let response = await fetch('http://localhost:8080/tilt', {
-                method: 'get',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const tiltData = await response.json();
+        let response = await fetch('http://localhost:8080/tilt', {
+            method: 'get',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const tiltData = await response.json();
 
-            return tiltData.map(obj => {
-                return {
-                    timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-                    // TODO get duration value from server
-                    value: getRandomFloatInclusive(70, 110)
-                };
-            });
-        } catch (e) {
-            console.error('failed to get tilt data, using fake data instead', e)
-            return fakeTiltData();
-        }
+        return tiltData.data.map(obj => {
+            return {
+                timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
+                // TODO get duration value from server
+                value: getRandomFloatInclusive(70, 110)
+            };
+        });
     } else {
         return delayedPromise(500, fakeTiltData());
     }

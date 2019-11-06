@@ -11,12 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "moment": "^2.24.0",
     "mongodb": "^3.3.2"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
+    "jetifier": "^1.6.4",
     "nodemon": "^1.19.2"
   }
 }
