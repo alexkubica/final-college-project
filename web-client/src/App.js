@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Title from './Title';
 import SensorsList from './SensorsList';
 import ErrorSnackbar from './ErrorSnackbar';
-import { getUVData, getHeartbeatData, getDistanceData, getTiltData, getBottleData } from './utils';
+import { getUVData, getHeartbeatData, getPostureData, getWeatherData, getMovementData, getBottleData } from './utils';
 import './App.css';
 
 const useStyles = makeStyles(theme => ({
@@ -27,25 +27,27 @@ function App() {
     uvData: [],
     heartbeatData: [],
     distanceData: [],
-    tiltData: [],
+    movementData: [],
     bottleData: []
   });
 
   async function loadData() {
     setLoading(true);
     try {
-      const [uvData, heartbeatData, distanceData, tiltData, bottleData] = await Promise.all([
+      const [uvData, weatherData, heartbeatData, postureData, movementData, bottleData] = await Promise.all([
         getUVData(),
+        getWeatherData(),
         getHeartbeatData(),
-        getDistanceData(),
-        getTiltData(),
+        getPostureData(),
+        getMovementData(),
         getBottleData()
       ]);
       setData({
         uvData,
+        weatherData,
         heartbeatData,
-        distanceData,
-        tiltData,
+        postureData,
+        movementData,
         bottleData
       });
     }

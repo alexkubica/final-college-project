@@ -38,7 +38,7 @@ const DATA_SIZE = 20;
 const SECOND_IN_MS = 1000;
 
 function fakeUVData() {
-    // fake data: 100 uvs between 0% to 15% in 30 seconds intervals
+    // fake data: uvs between 0% to 15% in 30 seconds intervals
     return new Array(DATA_SIZE)
         .fill()
         .map((x, i, arr) => {
@@ -50,7 +50,7 @@ function fakeUVData() {
 }
 
 function fakeHeartbeatData() {
-    // fake data: 100 heartbeats between 55 to 70 in 30 seconds intervals
+    // fake data: heartbeats between 55 to 70 in 30 seconds intervals
     return new Array(DATA_SIZE)
         .fill()
         .map((x, i, arr) => {
@@ -61,32 +61,48 @@ function fakeHeartbeatData() {
         });
 }
 
-function fakeDistanceData() {
-    // fake data: 100 distances between 0 to 10 in 30 seconds intervals
+function fakePostureData() {
+    // fake data: postures between 0 to 360 in 30 seconds intervals
     return new Array(DATA_SIZE)
         .fill()
         .map((x, i, arr) => {
             return {
                 timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
-                value: getRandomFloatInclusive(0, 10)
+                value: getRandomFloatInclusive(0, 360)
             }
         });
 }
 
-function fakeTiltData() {
-    // fake data: 100 tilts between 70 to 110 in 30 seconds intervals
+function fakeWeatherData() {
+    // fake data: weathers' temparature between 0 to 50 in 30 seconds intervals
+    // humidity between 0 to 100
     return new Array(DATA_SIZE)
         .fill()
         .map((x, i, arr) => {
             return {
                 timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
-                value: getRandomFloatInclusive(70, 110)
+                value: {
+                    temparature: getRandomFloatInclusive(0, 50),
+                    humidity: getRandomFloatInclusive(0, 100)
+                }
+            }
+        });
+}
+
+function fakeMovementData() {
+    // fake data: movement durations between 0 to 29 in 30 seconds intervals
+    return new Array(DATA_SIZE)
+        .fill()
+        .map((x, i, arr) => {
+            return {
+                timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
+                value: getRandomFloatInclusive(0, 29)
             };
         });
 }
 
 function fakeBottleVData() {
-    // fake data: 100 bottles between 0 to 100 in 30 seconds intervals
+    // fake data: bottles between 0 to 100 in 30 seconds intervals
     return new Array(DATA_SIZE)
         .fill()
         .map((x, i, arr) => {
@@ -98,87 +114,132 @@ function fakeBottleVData() {
 }
 
 export async function getUVData() {
-    // TODO change to real server api
     if (USE_REAL_API) {
-        try {
-            let response = await fetch('https://jsonplaceholder.typicode.com/posts');
-            return await response.json();
-        } catch (e) {
-            console.error('failed to get uv data, using fake data instead', e)
-            return fakeUVData();
-        }
+        let response = await fetch('http://localhost:8080/uv', {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+
+        return data.map(obj => {
+            return {
+                timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
+                // TODO get value from server
+                value: getRandomFloatInclusive(0, 100)
+            };
+        });
     } else {
         return delayedPromise(500, fakeUVData());
     }
 }
 
 export async function getHeartbeatData() {
-    // TODO change to real server api
     if (USE_REAL_API) {
-        try {
-            let response = await fetch('https://jsonplaceholder.typicode.com/posts');
-            return await response.json();
-        } catch (e) {
-            console.error('failed to get heartbeat data, using fake data instead', e)
-            return fakeHeartbeatData();
-        }
+        let response = await fetch('http://localhost:8080/heartbeat', {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+
+        return data.map(obj => {
+            return {
+                timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
+                // TODO get value from server
+                value: getRandomFloatInclusive(0, 100)
+            };
+        });
     } else {
         return delayedPromise(500, fakeHeartbeatData());
     }
 }
 
-export async function getDistanceData() {
-    // TODO change to real server api
+export async function getPostureData() {
     if (USE_REAL_API) {
-        try {
-            let response = await fetch('https://jsonplaceholder.typicode.com/posts');
-            return await response.json();
-        } catch (e) {
-            console.error('failed to get distance data, using fake data instead', e)
-            return fakeDistanceData();
-        }
+        let response = await fetch('http://localhost:8080/posture', {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+
+        return data.map(obj => {
+            return {
+                timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
+                // TODO get value from server
+                value: getRandomFloatInclusive(0, 100)
+            };
+        });
     } else {
-        return delayedPromise(500, fakeDistanceData());
+        return delayedPromise(500, fakePostureData());
     }
 }
 
-export async function getTiltData() {
+export async function getWeatherData() {
     if (USE_REAL_API) {
-        try {
-            let response = await fetch('http://localhost:8080/tilt', {
-                method: 'get',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const tiltData = await response.json();
+        let response = await fetch('http://localhost:8080/weather', {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
 
-            return tiltData.map(obj => {
-                return {
-                    timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-                    // TODO get duration value from server
-                    value: getRandomFloatInclusive(70, 110)
-                };
-            });
-        } catch (e) {
-            console.error('failed to get tilt data, using fake data instead', e)
-            return fakeTiltData();
-        }
+        return data.map(obj => {
+            return {
+                timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
+                // TODO get value from server
+                value: getRandomFloatInclusive(0, 100)
+            };
+        });
     } else {
-        return delayedPromise(500, fakeTiltData());
+        return delayedPromise(500, fakeWeatherData());
+    }
+}
+
+export async function getMovementData() {
+    if (USE_REAL_API) {
+        let response = await fetch('http://localhost:8080/movement', {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+
+        return data.map(obj => {
+            return {
+                timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
+                // TODO get value from server
+                value: getRandomFloatInclusive(0, 100)
+            };
+        });
+    } else {
+        return delayedPromise(500, fakeMovementData());
     }
 }
 
 export async function getBottleData() {
-    // TODO change to real server api
     if (USE_REAL_API) {
-        try {
-            let response = await fetch('https://jsonplaceholder.typicode.com/posts');
-            return await response.json();
-        } catch (e) {
-            console.error('failed to get bottle data, using fake data instead', e)
-            return fakeBottleVData();
-        }
+        let response = await fetch('http://localhost:8080/bottle', {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+
+        return data.map(obj => {
+            return {
+                timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
+                // TODO get value from server
+                value: getRandomFloatInclusive(0, 100)
+            };
+        });
     } else {
         return delayedPromise(500, fakeBottleVData());
     }
