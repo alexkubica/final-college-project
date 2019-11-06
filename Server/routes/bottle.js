@@ -29,7 +29,8 @@ function getMethod(req, res) {
 
 function postMethod(req, res) {
   let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
-  console.log("Received bottle post request! " + currTime)
+  console.log("Received bottle post request! " + currTime);
+  console.dir(req.body);
 
   try {
     var rowToSave = req.body
