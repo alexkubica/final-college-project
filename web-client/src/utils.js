@@ -236,8 +236,7 @@ export async function getBottleData() {
         return data.map(obj => {
             return {
                 timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-                // TODO get value from server
-                value: getRandomFloatInclusive(0, 100)
+                value: obj.data
             };
         });
     } else {
