@@ -19,7 +19,6 @@ export default function GraphScreen({ navigation }) {
                 }}
                 height={Dimensions.get('window').height - 100}
                 padding={{ left: 50, right: 50, top: 50, bottom: 100 }}
-                // containerComponent={<VictoryZoomContainer />}
             >
                 <VictoryAxis
                     style={{
