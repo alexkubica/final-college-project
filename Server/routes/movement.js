@@ -2,34 +2,34 @@ const moment = require('moment');
 const express = require('express');
 const { mongoDB } = require('../DB/mongo');
 
-const tiltRouter = express.Router();
-const TILT_COLLECTION = 'tilt';
+const movementRouter = express.Router();
+const MOVEMENT_COLLECTION = 'movement';
 
-tiltRouter.get('/', getMethod);
-tiltRouter.post('/', postMethod);
+movementRouter.get('/', getMethod);
+movementRouter.post('/', postMethod);
 
 function getMethod(req, res) {
   let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
-  console.log("Received tilt get request! " + currTime);
+  console.log("Received movement get request! " + currTime);
 
   try {
     mongoDB((db, close) => {
-      db.collection(TILT_COLLECTION).find({}).toArray(function (err, tiltData) {
+      db.collection(MOVEMENT_COLLECTION).find({}).toArray(function (err, movementData) {
         if (err) throw err;
-        res.json({ data: tiltData })
+        res.json({ data: movementData })
         close();
       });
     });
   }
   catch (e) {
     console.error(e);
-    res.sendStatus(500).json({ error: "failed to fetch tilt data" })
+    res.sendStatus(500).json({ error: "failed to fetch movement data" })
   }
 }
 
 function postMethod(req, res) {
   let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
-  console.log("Received tilt post request! " + currTime);
+  console.log("Received movement post request! " + currTime);
   console.dir(req.body);
 
   try {
@@ -37,7 +37,7 @@ function postMethod(req, res) {
     rowToSave.dateReceived = currTime;
 
     mongoDB((db, close) => {
-      db.collection(TILT_COLLECTION).insertOne(rowToSave, (err) => {
+      db.collection(MOVEMENT_COLLECTION).insertOne(rowToSave, (err) => {
         if (err) throw err;
         res.sendStatus(200);
         close();
@@ -46,8 +46,8 @@ function postMethod(req, res) {
   }
   catch (e) {
     console.error(e);
-    res.sendStatus(500).json({ error: "failed to save tilt data" })
+    res.sendStatus(500).json({ error: "failed to save movement data" })
   }
 }
 
-module.exports = tiltRouter;
+module.exports = movementRouter;
