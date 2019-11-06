@@ -16,7 +16,7 @@ function getMethod(req, res) {
     mongoDB((db, close) => {
       db.collection(HEARTBEAT_COLLECTION).find({}).toArray(function (err, heartbeatData) {
         if (err) throw err;
-        res.json({ data: heartbeatData })
+        res.json(heartbeatData);
         close();
       });
     });

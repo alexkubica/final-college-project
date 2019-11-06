@@ -16,7 +16,7 @@ function getMethod(req, res) {
     mongoDB((db, close) => {
       db.collection(POSTURE_COLLECTION).find({}).toArray(function (err, postureData) {
         if (err) throw err;
-        res.json({ data: postureData })
+        res.json(postureData);
         close();
       });
     });

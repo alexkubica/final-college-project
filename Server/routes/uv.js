@@ -16,7 +16,7 @@ function getMethod(req, res) {
     mongoDB((db, close) => {
       db.collection(UV_COLLECTION).find({}).toArray(function (err, uvData) {
         if (err) throw err;
-        res.json({ data: uvData })
+        res.json(uvData);
         close();
       });
     });

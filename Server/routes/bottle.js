@@ -16,7 +16,7 @@ function getMethod(req, res) {
     mongoDB((db, close) => {
       db.collection(BOTTLE_COLLECTION).find({}).toArray(function (err, bottleData) {
         if (err) throw err;
-        res.json({ data: bottleData })
+        res.json(bottleData);
         close();
       });
     });
