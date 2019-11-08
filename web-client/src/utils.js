@@ -1,4 +1,14 @@
 import moment from 'moment';
+import PropTypes from 'prop-types';
+
+export const DataPropType = PropTypes.exact({
+    timestamp: PropTypes.objectOf(Date),
+    value: PropTypes.number
+});
+
+export function returnHome() {
+    window.location.href = '/';
+}
 
 // helper function
 // used as: delayedPromise(1000, "hey")
@@ -36,6 +46,7 @@ function timestampCompare(a, b) {
 const USE_REAL_API = true;
 const DATA_SIZE = 20;
 const SECOND_IN_MS = 1000;
+const SERVER_URL = 'http://192.168.1.239:8080';
 
 function fakeUVData() {
     // fake data: uvs between 0% to 15% in 30 seconds intervals
@@ -115,7 +126,7 @@ function fakeBottleVData() {
 
 export async function getUVData() {
     if (USE_REAL_API) {
-        let response = await fetch('http://localhost:8080/uv', {
+        let response = await fetch(`${SERVER_URL}/uv`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json'
@@ -137,7 +148,7 @@ export async function getUVData() {
 
 export async function getHeartbeatData() {
     if (USE_REAL_API) {
-        let response = await fetch('http://localhost:8080/heartbeat', {
+        let response = await fetch(`${SERVER_URL}/heartbeat`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json'
@@ -159,7 +170,7 @@ export async function getHeartbeatData() {
 
 export async function getPostureData() {
     if (USE_REAL_API) {
-        let response = await fetch('http://localhost:8080/posture', {
+        let response = await fetch(`${SERVER_URL}/posture`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json'
@@ -181,7 +192,7 @@ export async function getPostureData() {
 
 export async function getWeatherData() {
     if (USE_REAL_API) {
-        let response = await fetch('http://localhost:8080/weather', {
+        let response = await fetch(`${SERVER_URL}/weather`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json'
@@ -203,7 +214,7 @@ export async function getWeatherData() {
 
 export async function getMovementData() {
     if (USE_REAL_API) {
-        let response = await fetch('http://localhost:8080/movement', {
+        let response = await fetch(`${SERVER_URL}/movement`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json'
@@ -225,7 +236,7 @@ export async function getMovementData() {
 
 export async function getBottleData() {
     if (USE_REAL_API) {
-        let response = await fetch('http://localhost:8080/bottle', {
+        let response = await fetch(`${SERVER_URL}/bottle`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json'
