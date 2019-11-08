@@ -23,7 +23,7 @@ function getMethod(req, res) {
   }
   catch (e) {
     console.error(e);
-    res.sendStatus(500).json({ error: "failed to fetch movement data" })
+    res.status(500).send("failed to fetch movement data")
   }
 }
 
@@ -46,7 +46,7 @@ function postMethod(req, res) {
   }
   catch (e) {
     console.error(e);
-    res.sendStatus(500).json({ error: "failed to save movement data" })
+    res.status(500).send("failed to save movement data")
   }
 }
 
