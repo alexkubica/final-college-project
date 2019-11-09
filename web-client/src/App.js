@@ -213,7 +213,9 @@ function App() {
                   <CircularProgress />
                 </div>
                 :
-                <HeartbeatGraph />
+                <HeartbeatGraph
+                  data={data.heartbeatData}
+                />
             }
           </Route>
           <Route path="/posture">

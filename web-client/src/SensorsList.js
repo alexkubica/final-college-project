@@ -23,6 +23,10 @@ const useStyles = makeStyles(theme => ({
     card: {
         width: '100%',
         margin: '1em'
+    },
+    weatherConent: {
+        display: 'flex',
+        flexDirection: 'column'
     }
 }));
 
@@ -42,7 +46,7 @@ function getCards(data, classes) {
             content={
                 data.uvData.length > 0
                     ?
-                    `${data.uvData[data.uvData.length - 1].value}%`
+                    `${data.uvData[data.uvData.length - 1].value} UV Index`
                     :
                     'No data'
             }
@@ -61,7 +65,14 @@ function getCards(data, classes) {
             content={
                 data.weatherData.length > 0
                     ?
-                    `${data.weatherData[data.weatherData.length - 1].value}%`
+                    <div className={classes.weatherConent}>
+                        <span>
+                            Temperature: {data.weatherData[data.weatherData.length - 1].value.temparature}°C
+                        </span>
+                        <span>
+                            Humidity: {data.weatherData[data.weatherData.length - 1].value.humidity}%
+                        </span>
+                    </div>
                     :
                     'No data'
             }
@@ -80,7 +91,7 @@ function getCards(data, classes) {
             content={
                 data.heartbeatData.length > 0
                     ?
-                    `${data.heartbeatData[data.heartbeatData.length - 1].value}%`
+                    `${data.heartbeatData[data.heartbeatData.length - 1].value} BPM`
                     :
                     'No data'
             }
@@ -99,7 +110,7 @@ function getCards(data, classes) {
             content={
                 data.postureData.length > 0
                     ?
-                    `${data.postureData[data.postureData.length - 1].value}%`
+                    `${data.postureData[data.postureData.length - 1].value}°`
                     :
                     'No data'
             }
@@ -118,7 +129,7 @@ function getCards(data, classes) {
             content={
                 data.movementData.length > 0
                     ?
-                    `${data.movementData[data.movementData.length - 1].value}%`
+                    `Moved for ${data.movementData[data.movementData.length - 1].value} minutes straight last time `
                     :
                     'No data'
             }

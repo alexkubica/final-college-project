@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export const DataPropType = PropTypes.exact({
     timestamp: PropTypes.objectOf(Date),
-    value: PropTypes.number
+    value: PropTypes.any
 });
 
 export function returnHome() {
@@ -43,8 +43,8 @@ function timestampCompare(a, b) {
     return 0;
 }
 
-const USE_REAL_API = true;
-const DATA_SIZE = 20;
+const USE_REAL_API = false;
+const DATA_SIZE = 1000;
 const SECOND_IN_MS = 1000;
 const SERVER_URL = 'http://192.168.1.239:8080';
 
@@ -93,7 +93,7 @@ function fakeWeatherData() {
             return {
                 timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
                 value: {
-                    temparature: getRandomFloatInclusive(0, 50),
+                    temparature: getRandomFloatInclusive(10, 30),
                     humidity: getRandomFloatInclusive(0, 100)
                 }
             }

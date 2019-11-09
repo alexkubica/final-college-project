@@ -7,8 +7,14 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const propTypes = {
-    title: PropTypes.string.isRequired,
-    data: PropTypes.string.isRequired,
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element
+    ]).isRequired,
+    content: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element
+    ]).isRequired,
     onOpen: PropTypes.func.isRequired
 };
 
@@ -33,7 +39,7 @@ export default function CardData({ title, content, onOpen }) {
                     <Typography gutterBottom variant="h5" component="h2">
                         {title}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
+                    <Typography variant="body1" color="textSecondary" component="div">
                         {content}
                     </Typography>
                 </CardContent>
