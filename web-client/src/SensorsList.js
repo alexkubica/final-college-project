@@ -30,6 +30,17 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+function parseIntOrZero(x) {
+    const parsed = parseInt(x);
+    return isNaN(parsed) ? 0 : parsed;
+}
+
+function averageData(data) {
+    return data.reduce((a, b) => {
+        return parseIntOrZero(a) + parseIntOrZero(b);
+    }, 0) / data.length;
+}
+
 function getCards(data, classes) {
     return [
         <CardData
@@ -46,7 +57,14 @@ function getCards(data, classes) {
             content={
                 data.uvData.length > 0
                     ?
-                    `${data.uvData[data.uvData.length - 1].value} UV Index`
+                    <div>
+                        <div>
+                            Last recorded UV Index: {data.uvData[data.uvData.length - 1].value}
+                        </div>
+                        <div>
+                            Average UV Index: {averageData(data.uvData.map(x => x.value))}
+                        </div>
+                    </div>
                     :
                     'No data'
             }
@@ -67,7 +85,7 @@ function getCards(data, classes) {
                     ?
                     <div className={classes.weatherConent}>
                         <span>
-                            Temperature: {data.weatherData[data.weatherData.length - 1].value.temparature}°C
+                            Temperature: {data.weatherData[data.weatherData.length - 1].value.temperature}°C
                         </span>
                         <span>
                             Humidity: {data.weatherData[data.weatherData.length - 1].value.humidity}%
@@ -79,19 +97,26 @@ function getCards(data, classes) {
         />,
         <CardData
             onOpen={() => {
-                window.location.href = '/heartbeat';
+                window.location.href = '/heartrate';
             }}
             key={3}
             title={
                 <Fragment>
                     <FavoriteIcon className={classes.icon} />
-                    Heartbeat
+                    Heart Rate
                 </Fragment>
             }
             content={
-                data.heartbeatData.length > 0
+                data.heartRateData.length > 0
                     ?
-                    `${data.heartbeatData[data.heartbeatData.length - 1].value} BPM`
+                    <div>
+                        <div>
+                            Last recorded heart rate: {data.heartRateData[data.heartRateData.length - 1].value} BPM
+                        </div>
+                        <div>
+                            Average heart rate: {averageData(data.heartRateData.map(x => x.value))} BPM
+                        </div>
+                    </div>
                     :
                     'No data'
             }
@@ -170,7 +195,7 @@ SensorsList.propTypes = {
     data: PropTypes.exact({
         uvData: PropTypes.arrayOf(DataPropType),
         weatherData: PropTypes.arrayOf(DataPropType),
-        heartbeatData: PropTypes.arrayOf(DataPropType),
+        heartRateData: PropTypes.arrayOf(DataPropType),
         postureData: PropTypes.arrayOf(DataPropType),
         movementData: PropTypes.arrayOf(DataPropType),
         bottleData: PropTypes.arrayOf(DataPropType)

@@ -43,9 +43,20 @@ function timestampCompare(a, b) {
     return 0;
 }
 
+export function graphSubtitleText() {
+    return document.ontouchstart === undefined ?
+        'Click and drag to zoom in. Hold down shift key to pan.' :
+        'Pinch the chart to zoom in. Touch and hold with two fingers to pan.';
+}
+
+export const GRAPH_DATE_FORMAT = '%d/%m/%Y %H:%M:%S';
+
 const USE_REAL_API = false;
-const DATA_SIZE = 1000;
-const SECOND_IN_MS = 1000;
+const DATA_SIZE = 100;
+export const SECONDS_IN_MS = 1000;
+export const MINUTES_IN_MS = 60 * SECONDS_IN_MS;
+export const HOURS_IN_MS = 60 * MINUTES_IN_MS;
+export const DAYS_IN_MS = 24 * HOURS_IN_MS;
 const SERVER_URL = 'http://192.168.1.239:8080';
 
 function fakeUVData() {
@@ -54,20 +65,20 @@ function fakeUVData() {
         .fill()
         .map((x, i, arr) => {
             return {
-                timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
+                timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
                 value: getRandomFloatInclusive(0, 15)
             };
         });
 }
 
-function fakeHeartbeatData() {
-    // fake data: heartbeats between 55 to 70 in 30 seconds intervals
+function fakeHeartRateData() {
+    // fake data: heart rates between 30 to 150 in 30 seconds intervals
     return new Array(DATA_SIZE)
         .fill()
         .map((x, i, arr) => {
             return {
-                timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
-                value: getRandomIntInclusive(55, 70)
+                timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
+                value: getRandomIntInclusive(30, 150)
             };
         });
 }
@@ -78,22 +89,22 @@ function fakePostureData() {
         .fill()
         .map((x, i, arr) => {
             return {
-                timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
+                timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
                 value: getRandomFloatInclusive(0, 360)
             }
         });
 }
 
 function fakeWeatherData() {
-    // fake data: weathers' temparature between 0 to 50 in 30 seconds intervals
+    // fake data: weathers' temparature between -30 to 30 in half day intervals
     // humidity between 0 to 100
     return new Array(DATA_SIZE)
         .fill()
         .map((x, i, arr) => {
             return {
-                timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
+                timestamp: new Date(new Date().getTime() - i * DAYS_IN_MS / 2),
                 value: {
-                    temparature: getRandomFloatInclusive(10, 30),
+                    temperature: getRandomFloatInclusive(-30, 30),
                     humidity: getRandomFloatInclusive(0, 100)
                 }
             }
@@ -106,7 +117,7 @@ function fakeMovementData() {
         .fill()
         .map((x, i, arr) => {
             return {
-                timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
+                timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
                 value: getRandomFloatInclusive(0, 29)
             };
         });
@@ -118,7 +129,7 @@ function fakeBottleVData() {
         .fill()
         .map((x, i, arr) => {
             return {
-                timestamp: new Date(new Date().getTime() - i * 30 * SECOND_IN_MS),
+                timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
                 value: getRandomFloatInclusive(0, 100)
             };
         })
@@ -146,7 +157,7 @@ export async function getUVData() {
     }
 }
 
-export async function getHeartbeatData() {
+export async function getHeartRateData() {
     if (USE_REAL_API) {
         let response = await fetch(`${SERVER_URL}/heartbeat`, {
             method: 'get',
@@ -164,7 +175,7 @@ export async function getHeartbeatData() {
             };
         });
     } else {
-        return delayedPromise(500, fakeHeartbeatData());
+        return delayedPromise(500, fakeHeartRateData());
     }
 }
 

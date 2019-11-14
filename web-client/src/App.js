@@ -14,8 +14,8 @@ import WeatherGraph from './WeatherGraph';
 import PostureGraph from './PostureGraph';
 import MovementGraph from './MovementGraph';
 import BottleGraph from './BottleGraph';
-import HeartbeatGraph from './HeartbeatGraph';
-import { returnHome, getUVData, getHeartbeatData, getPostureData, getWeatherData, getMovementData, getBottleData } from './utils';
+import HeartRateGraph from './HeartRateGraph';
+import { returnHome, getUVData, getHeartRateData, getPostureData, getWeatherData, getMovementData, getBottleData } from './utils';
 import './App.css';
 
 const useStyles = makeStyles(theme => ({
@@ -36,7 +36,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     uvData: [],
-    heartbeatData: [],
+    heartRateData: [],
     distanceData: [],
     movementData: [],
     bottleData: []
@@ -45,10 +45,10 @@ function App() {
   async function fetchAllData() {
     await load(async () => {
       await handleError(async () => {
-        const [uvData, weatherData, heartbeatData, postureData, movementData, bottleData] = await Promise.all([
+        const [uvData, weatherData, heartRateData, postureData, movementData, bottleData] = await Promise.all([
           getUVData(),
           getWeatherData(),
-          getHeartbeatData(),
+          getHeartRateData(),
           getPostureData(),
           getMovementData(),
           getBottleData()
@@ -56,7 +56,7 @@ function App() {
         setData({
           uvData,
           weatherData,
-          heartbeatData,
+          heartRateData,
           postureData,
           movementData,
           bottleData
@@ -87,14 +87,14 @@ function App() {
     });
   }
 
-  async function fetchHeartbeatData() {
+  async function fetchHeartRateData() {
     await load(async () => {
       await handleError(async () => {
         setData({
           ...data,
-          heartbeatData: await getHeartbeatData()
+          heartRateData: await getHeartRateData()
         });
-      }, "Failed to load heartbeat data from server");
+      }, "Failed to load heart rate data from server");
     });
   }
 
@@ -183,7 +183,9 @@ function App() {
                   <CircularProgress />
                 </div>
                 :
-                <UVGraph />
+                <UVGraph
+                  data={data.uvData}
+                />
             }
           </Route>
           <Route path="/weather">
@@ -198,14 +200,16 @@ function App() {
                   <CircularProgress />
                 </div>
                 :
-                <WeatherGraph />
+                <WeatherGraph
+                  data={data.weatherData}
+                />
             }
           </Route>
-          <Route path="/heartbeat">
+          <Route path="/heartrate">
             <Title
-              title='Heartbeat Graph'
+              title='Heart Rate Graph'
               onReturn={returnHome}
-              onRefresh={fetchHeartbeatData}
+              onRefresh={fetchHeartRateData}
             />
             {
               loading ?
@@ -213,8 +217,8 @@ function App() {
                   <CircularProgress />
                 </div>
                 :
-                <HeartbeatGraph
-                  data={data.heartbeatData}
+                <HeartRateGraph
+                  data={data.heartRateData}
                 />
             }
           </Route>
@@ -230,7 +234,9 @@ function App() {
                   <CircularProgress />
                 </div>
                 :
-                <PostureGraph />
+                <PostureGraph
+                  data={data.postureData}
+                />
             }
           </Route>
           <Route path="/movement">
@@ -245,7 +251,9 @@ function App() {
                   <CircularProgress />
                 </div>
                 :
-                <MovementGraph />
+                <MovementGraph
+                  data={data.movementData}
+                />
             }
           </Route>
           <Route path="/bottle">
@@ -260,7 +268,9 @@ function App() {
                   <CircularProgress />
                 </div>
                 :
-                <BottleGraph />
+                <BottleGraph
+                  data={data.bottleData}
+                />
             }
           </Route>
         </Switch>

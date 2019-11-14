@@ -3,31 +3,40 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { DataPropType } from './utils';
+import { DataPropType, MINUTES_IN_MS, graphSubtitleText, GRAPH_DATE_FORMAT } from './utils';
 
 const propTypes = {
     data: PropTypes.arrayOf(DataPropType)
 };
 
-export default function HeartbeatGraph({ data }) {
+export default function HeartRateGraph({ data }) {
     const options = {
         chart: {
-            zoomType: 'x'
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift'
         },
         title: {
-            text: 'Heartbeat over time'
+            text: 'Heart rate over time'
         },
         subtitle: {
-            text: document.ontouchstart === undefined ?
-                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            text: graphSubtitleText()
         },
         xAxis: {
-            type: 'datetime'
+            type: 'datetime',
+            minRange: 5 * MINUTES_IN_MS
         },
         yAxis: {
             title: {
-                text: 'Heartbeat'
+                text: 'Heart Rate'
+            },
+            labels: {
+                format: '{value} BPM'
             }
+        },
+        tooltip: {
+            xDateFormat: GRAPH_DATE_FORMAT,
+            valueSuffix: ' BPM'
         },
         legend: {
             enabled: false
@@ -58,10 +67,9 @@ export default function HeartbeatGraph({ data }) {
                 threshold: null
             }
         },
-
         series: [{
             type: 'area',
-            name: 'Heartbeat',
+            name: 'Heart Rate',
             data: data.map(obj => {
                 return [
                     moment(obj.timestamp).valueOf(),
@@ -79,4 +87,4 @@ export default function HeartbeatGraph({ data }) {
     );
 }
 
-HeartbeatGraph.propTypes = propTypes;
+HeartRateGraph.propTypes = propTypes;
