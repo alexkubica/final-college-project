@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { makeStyles } from '@material-ui/core/styles';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { DataPropType } from './utils';
@@ -9,9 +8,6 @@ import { DataPropType } from './utils';
 const propTypes = {
     data: PropTypes.arrayOf(DataPropType)
 };
-
-const useStyles = makeStyles(theme => ({
-}));
 
 export default function HeartbeatGraph({ data }) {
     const options = {
