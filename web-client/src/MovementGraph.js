@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Highcharts from 'highcharts';
+import xrange from 'highcharts/modules/xrange';
 import HighchartsReact from 'highcharts-react-official';
-import { DataPropType, graphSubtitleText, GRAPH_DATE_FORMAT, HOURS_IN_MS } from './utils';
+import { DataPropType, graphSubtitleText, GRAPH_DATE_FORMAT, SECONDS_IN_MS, MINUTES_IN_MS } from './utils';
+(xrange)(Highcharts)
 
 const propTypes = {
     data: PropTypes.arrayOf(DataPropType)
@@ -12,8 +14,8 @@ const propTypes = {
 export default function MovementGraph({ data }) {
     const options = {
         chart: {
-            type: 'bar',
-            zoomType: 'y',
+            type: 'xrange',
+            zoomType: 'x',
             panning: true,
             panKey: 'shift'
         },
@@ -24,44 +26,36 @@ export default function MovementGraph({ data }) {
             text: graphSubtitleText()
         },
         xAxis: {
-            visible: false
+            type: 'datetime',
+            minRange: 1 * MINUTES_IN_MS
         },
         yAxis: {
-            type: 'datetime',
-            title: {
-                text: ''
-            }
+            visible: false
         },
         tooltip: {
             xDateFormat: GRAPH_DATE_FORMAT,
-            minRange: HOURS_IN_MS
+            pointFormat: `Moved for <b>{point.value}</b> seconds.`
         },
-        plotOptions: {
-            series: {
-                stacking: 'normal'
-            }
+        legend: {
+            enabled: false
         },
-        // TODO generate serieses from data
         series: [{
-            name: 'move',
-            data: [5],
-            color: 'blue'
-        }, {
-            name: 'no move',
-            data: [2],
-            color: 'gray'
-        },
-        {
-            name: 'move',
-            data: [5],
-            color: 'blue'
-        },
-        {
-            name: 'no move',
-            data: [3],
-            color: 'gray'
-        }
-        ]
+            name: 'Movement',
+            borderColor: 'blue',
+            pointWidth: 30,
+            data: data.map(m => {
+                return {
+                    x: moment(m.timestamp).valueOf() - m.value * SECONDS_IN_MS,
+                    x2: moment(m.timestamp).valueOf(),
+                    y: 0,
+                    value: m.value
+                };
+            }),
+            dataLabels: {
+                enabled: true
+            }
+        }]
+
     };
 
     return (
