@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Highcharts from 'highcharts';
-import xrange from 'highcharts/modules/xrange';
 import HighchartsReact from 'highcharts-react-official';
+import xrange from 'highcharts/modules/xrange';
 import { DataPropType, graphSubtitleText, GRAPH_DATE_FORMAT, SECONDS_IN_MS, MINUTES_IN_MS } from './utils';
-(xrange)(Highcharts)
+
+(xrange)(Highcharts);
 
 const propTypes = {
     data: PropTypes.arrayOf(DataPropType)

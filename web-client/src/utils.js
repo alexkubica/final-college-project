@@ -60,12 +60,12 @@ export const DAYS_IN_MS = 24 * HOURS_IN_MS;
 const SERVER_URL = 'http://192.168.1.239:8080';
 
 function fakeUVData() {
-    // fake data: uvs between 0% to 15% in 30 seconds intervals
+    // fake data: uvs between 0 UV and 15 UV in one hour intervals
     return new Array(DATA_SIZE)
         .fill()
         .map((x, i, arr) => {
             return {
-                timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
+                timestamp: new Date(new Date().getTime() - i * HOURS_IN_MS),
                 value: getRandomFloatInclusive(0, 15)
             };
         });
