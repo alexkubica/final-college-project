@@ -18,7 +18,8 @@ import {
   getPostureData,
   getWeatherData,
   getMovementData,
-  getBottleData
+  getBottleData,
+  MINUTES_IN_MS
 } from "./utils";
 import "./App.css";
 
@@ -46,100 +47,86 @@ function App() {
     bottleData: []
   });
 
-  async function fetchAllData() {
-    await load(async () => {
-      await handleError(async () => {
-        const [
-          uvData,
-          weatherData,
-          heartRateData,
-          postureData,
-          movementData,
-          bottleData
-        ] = await Promise.all([
-          getUVData(),
-          getWeatherData(),
-          getHeartRateData(),
-          getPostureData(),
-          getMovementData(),
-          getBottleData()
-        ]);
-        setData({
-          uvData,
-          weatherData,
-          heartRateData,
-          postureData,
-          movementData,
-          bottleData
-        });
-      }, "Failed to load some sensors' data from server");
-    });
+  function fetchAllData() {
+    return handleError(async () => {
+      const [
+        uvData,
+        weatherData,
+        heartRateData,
+        postureData,
+        movementData,
+        bottleData
+      ] = await Promise.all([
+        getUVData(),
+        getWeatherData(),
+        getHeartRateData(),
+        getPostureData(),
+        getMovementData(),
+        getBottleData()
+      ]);
+      setData({
+        uvData,
+        weatherData,
+        heartRateData,
+        postureData,
+        movementData,
+        bottleData
+      });
+    }, "Failed to load some sensors' data from server");
   }
 
-  async function fetchUVData() {
-    await load(async () => {
-      await handleError(async () => {
-        setData({
-          ...data,
-          uvData: await getUVData()
-        });
-      }, "Failed to load uv data from server");
-    });
+  function fetchUVData() {
+    return handleError(async () => {
+      setData({
+        ...data,
+        uvData: await getUVData()
+      });
+    }, "Failed to load uv data from server");
   }
 
-  async function fetchWeatherData() {
-    await load(async () => {
-      await handleError(async () => {
-        setData({
-          ...data,
-          weatherData: await getWeatherData()
-        });
-      }, "Failed to load weather data from server");
-    });
+  function fetchWeatherData() {
+    return handleError(async () => {
+      setData({
+        ...data,
+        weatherData: await getWeatherData()
+      });
+    }, "Failed to load weather data from server");
   }
 
-  async function fetchHeartRateData() {
-    await load(async () => {
-      await handleError(async () => {
-        setData({
-          ...data,
-          heartRateData: await getHeartRateData()
-        });
-      }, "Failed to load heart rate data from server");
-    });
+  function fetchHeartRateData() {
+    return handleError(async () => {
+      setData({
+        ...data,
+        heartRateData: await getHeartRateData()
+      });
+    }, "Failed to load heart rate data from server");
   }
 
-  async function fetchPostureData() {
-    await load(async () => {
-      await handleError(async () => {
-        setData({
-          ...data,
-          postureData: await getPostureData()
-        });
-      }, "Failed to load posture data from server");
-    });
+  function fetchPostureData() {
+    return handleError(async () => {
+      setData({
+        ...data,
+        postureData: await getPostureData()
+      });
+    }, "Failed to load posture data from server");
   }
 
-  async function fetchMovementData() {
-    await load(async () => {
-      await handleError(async () => {
-        setData({
-          ...data,
-          movementData: await getMovementData()
-        });
-      }, "Failed to load movement data from server");
-    });
+  function fetchMovementData() {
+    return handleError(async () => {
+      setData({
+        ...data,
+        movementData: await getMovementData()
+      });
+    }, "Failed to load movement data from server");
   }
 
-  async function fetchBottleData() {
-    await load(async () => {
-      await handleError(async () => {
-        setData({
-          ...data,
-          bottleData: await getBottleData()
-        });
-      }, "Failed to load bottle data from server");
-    });
+  function fetchBottleData() {
+    return handleError(async () => {
+      setData({
+        ...data,
+        bottleData: await getBottleData()
+      });
+    }, "Failed to load bottle data from server");
   }
 
   async function handleError(asyncCallback, errorMsg) {
@@ -151,16 +138,17 @@ function App() {
     }
   }
 
-  async function load(asyncCallback, errorMsg) {
+  async function load(asyncCallback) {
     setLoading(true);
-    await handleError(asyncCallback, errorMsg);
+    await asyncCallback();
     setLoading(false);
   }
 
   useEffect(() => {
+    load(fetchAllData);
     const interval = setInterval(() => {
       fetchAllData();
-    }, 1000);
+    }, 1 * MINUTES_IN_MS);
     return () => clearInterval(interval);
   }, []);
 
@@ -171,7 +159,12 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Title title="Jarvis Mate!" onRefresh={fetchAllData} />
+            <Title
+              title="Jarvis Mate!"
+              onRefresh={() => {
+                load(fetchAllData);
+              }}
+            />
             {loading ? (
               <div className={classes.loadingContainer}>
                 <CircularProgress />
