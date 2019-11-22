@@ -1,33 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Title from "./Title";
+import SensorsList from "./SensorsList";
+import ErrorSnackbar from "./ErrorSnackbar";
+import UVGraph from "./UVGraph";
+import WeatherGraph from "./WeatherGraph";
+import PostureGraph from "./PostureGraph";
+import MovementGraph from "./MovementGraph";
+import BottleGraph from "./BottleGraph";
+import HeartRateGraph from "./HeartRateGraph";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Title from './Title';
-import SensorsList from './SensorsList';
-import ErrorSnackbar from './ErrorSnackbar';
-import UVGraph from './UVGraph';
-import WeatherGraph from './WeatherGraph';
-import PostureGraph from './PostureGraph';
-import MovementGraph from './MovementGraph';
-import BottleGraph from './BottleGraph';
-import HeartRateGraph from './HeartRateGraph';
-import { returnHome, getUVData, getHeartRateData, getPostureData, getWeatherData, getMovementData, getBottleData } from './utils';
-import './App.css';
+  returnHome,
+  getUVData,
+  getHeartRateData,
+  getPostureData,
+  getWeatherData,
+  getMovementData,
+  getBottleData
+} from "./utils";
+import "./App.css";
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    height: '100%'
+    height: "100%"
   },
   loadingContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '80%',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "80%"
   }
 }));
 
@@ -45,7 +49,14 @@ function App() {
   async function fetchAllData() {
     await load(async () => {
       await handleError(async () => {
-        const [uvData, weatherData, heartRateData, postureData, movementData, bottleData] = await Promise.all([
+        const [
+          uvData,
+          weatherData,
+          heartRateData,
+          postureData,
+          movementData,
+          bottleData
+        ] = await Promise.all([
           getUVData(),
           getWeatherData(),
           getHeartRateData(),
@@ -134,8 +145,7 @@ function App() {
   async function handleError(asyncCallback, errorMsg) {
     try {
       await asyncCallback();
-    }
-    catch (e) {
+    } catch (e) {
       console.error(errorMsg, e);
       setError(errorMsg);
     }
@@ -148,7 +158,10 @@ function App() {
   }
 
   useEffect(() => {
-    fetchAllData();
+    const interval = setInterval(() => {
+      fetchAllData();
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const classes = useStyles();
@@ -158,134 +171,111 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Title
-              title='Jarvis Mate!'
-              onRefresh={fetchAllData}
-            />
-            {
-              loading ?
-                <div className={classes.loadingContainer}>
-                  <CircularProgress />
-                </div>
-                :
-                <SensorsList data={data} />
-            }
+            <Title title="Jarvis Mate!" onRefresh={fetchAllData} />
+            {loading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <SensorsList data={data} />
+            )}
           </Route>
           <Route path="/uv">
             <Title
-              title='Ultraviolet Graph'
+              title="Ultraviolet Graph"
               onReturn={returnHome}
               onRefresh={fetchUVData}
             />
-            {
-              loading ?
-                <div className={classes.loadingContainer}>
-                  <CircularProgress />
-                </div>
-                :
-                <UVGraph
-                  data={data.uvData}
-                />
-            }
+            {loading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <UVGraph data={data.uvData} />
+            )}
           </Route>
           <Route path="/weather">
             <Title
-              title='Weather Graph'
+              title="Weather Graph"
               onReturn={returnHome}
               onRefresh={fetchWeatherData}
             />
-            {
-              loading ?
-                <div className={classes.loadingContainer}>
-                  <CircularProgress />
-                </div>
-                :
-                <WeatherGraph
-                  data={data.weatherData}
-                />
-            }
+            {loading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <WeatherGraph data={data.weatherData} />
+            )}
           </Route>
           <Route path="/heartrate">
             <Title
-              title='Heart Rate Graph'
+              title="Heart Rate Graph"
               onReturn={returnHome}
               onRefresh={fetchHeartRateData}
             />
-            {
-              loading ?
-                <div className={classes.loadingContainer}>
-                  <CircularProgress />
-                </div>
-                :
-                <HeartRateGraph
-                  data={data.heartRateData}
-                />
-            }
+            {loading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <HeartRateGraph data={data.heartRateData} />
+            )}
           </Route>
           <Route path="/posture">
             <Title
-              title='Posture Graph'
+              title="Posture Graph"
               onReturn={returnHome}
               onRefresh={fetchPostureData}
             />
-            {
-              loading ?
-                <div className={classes.loadingContainer}>
-                  <CircularProgress />
-                </div>
-                :
-                <PostureGraph
-                  data={data.postureData}
-                />
-            }
+            {loading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <PostureGraph data={data.postureData} />
+            )}
           </Route>
           <Route path="/movement">
             <Title
-              title='Movement Graph'
+              title="Movement Graph"
               onReturn={returnHome}
               onRefresh={fetchMovementData}
             />
-            {
-              loading ?
-                <div className={classes.loadingContainer}>
-                  <CircularProgress />
-                </div>
-                :
-                <MovementGraph
-                  data={data.movementData}
-                />
-            }
+            {loading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <MovementGraph data={data.movementData} />
+            )}
           </Route>
           <Route path="/bottle">
             <Title
-              title='Bottle Graph'
+              title="Bottle Graph"
               onReturn={returnHome}
               onRefresh={fetchBottleData}
             />
-            {
-              loading ?
-                <div className={classes.loadingContainer}>
-                  <CircularProgress />
-                </div>
-                :
-                <BottleGraph
-                  data={data.bottleData}
-                />
-            }
+            {loading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <BottleGraph data={data.bottleData} />
+            )}
           </Route>
         </Switch>
       </Router>
 
-      {
-        error &&
+      {error && (
         <ErrorSnackbar
           error={error}
           onDismiss={() => {
             setError(undefined);
           }}
         />
-      }
-    </div >
+      )}
+    </div>
   );
 }
 

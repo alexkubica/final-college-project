@@ -1,22 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
 
-const propTypes = {
-};
+const propTypes = {};
 
-const useStyles = makeStyles(theme => ({
-}));
+const useStyles = makeStyles(theme => ({}));
 
+export default function PostureGraph({}) {
+  const classes = useStyles();
 
-export default function PostureGraph({ }) {
-    const classes = useStyles();
-
-    return (
-        <div>
-            PostureGraph
-        </div>
-    );
+  return <div>PostureGraph</div>;
 }
 
 PostureGraph.propTypes = propTypes;
