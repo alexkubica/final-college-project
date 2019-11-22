@@ -1,15 +1,92 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import { DataPropType, MINUTES_IN_MS, graphSubtitleText, GRAPH_DATE_FORMAT } from './utils';
 
-const propTypes = {};
+const propTypes = {
+	data: PropTypes.arrayOf(DataPropType),
+};
 
-const useStyles = makeStyles(theme => ({}));
+export default function PostureGraph({ data }) {
+	const options = {
+		chart: {
+			zoomType: 'x',
+			panning: true,
+			panKey: 'shift',
+		},
+		title: {
+			text: 'Posture angle over time',
+		},
+		subtitle: {
+			text: graphSubtitleText(),
+		},
+		xAxis: {
+			type: 'datetime',
+			minRange: 5 * MINUTES_IN_MS,
+		},
+		yAxis: {
+			title: {
+				text: 'Posture angle',
+			},
+			labels: {
+				format: '{value}°',
+			},
+			min: 0,
+			max: 360,
+			tickPositions: [0, 90, 180, 270, 360],
+		},
+		tooltip: {
+			xDateFormat: GRAPH_DATE_FORMAT,
+			valueSuffix: '°',
+		},
+		legend: {
+			enabled: false,
+		},
+		plotOptions: {
+			area: {
+				fillColor: {
+					linearGradient: {
+						x1: 0,
+						y1: 0,
+						x2: 0,
+						y2: 1,
+					},
+					stops: [
+						[0, Highcharts.getOptions().colors[0]],
+						[
+							1,
+							Highcharts.Color(Highcharts.getOptions().colors[0])
+								.setOpacity(0)
+								.get('rgba'),
+						],
+					],
+				},
+				marker: {
+					radius: 2,
+				},
+				lineWidth: 1,
+				states: {
+					hover: {
+						lineWidth: 1,
+					},
+				},
+				threshold: null,
+			},
+		},
+		series: [
+			{
+				type: 'spline',
+				name: 'Posture',
+				data: data.map(obj => {
+					return [moment(obj.timestamp).valueOf(), obj.value];
+				}),
+			},
+		],
+	};
 
-export default function PostureGraph({}) {
-  const classes = useStyles();
-
-  return <div>PostureGraph</div>;
+	return <HighchartsReact highcharts={Highcharts} options={options} />;
 }
 
 PostureGraph.propTypes = propTypes;
