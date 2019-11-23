@@ -9,6 +9,7 @@ let weather = require('./routes/weather');
 let movement = require('./routes/movement');
 let heartbeat = require('./routes/heartbeat');
 let bottle = require('./routes/bottle');
+let howYouDoin = require('./routes/howYouDoin');
 let jarvisBrain = require('./routes/jarvisBrain');
 let logic = require('./Logic')
 
@@ -30,6 +31,7 @@ app.use("/movement", movement);
 app.use("/heartbeat", heartbeat);
 app.use("/bottle", bottle);
 app.use("/jarvisBrain", jarvisBrain);
+app.use("/HowYouDoin",howYouDoin)
 
 // Start listening
 app.listen(PORT, '0.0.0.0', () => {

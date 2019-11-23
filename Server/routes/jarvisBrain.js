@@ -3,9 +3,9 @@ const express = require('express');
 
 const Router = express.Router();
 
-Router.post('/isOnline', postMethod);
+Router.post('/isOnline', postMethod_IsOnline);
 
-function postMethod(req, res) {
+function postMethod_IsOnline(req, res) {
     var arduinoName = req.body.name;
     if(arduinoName == undefined)
     {
