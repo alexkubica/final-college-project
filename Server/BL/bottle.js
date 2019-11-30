@@ -37,14 +37,19 @@ async function LastTimeDrank(){
 }
 
 function SendArduinoNEEDTODRINK(){
-    http.request({
-        hostname: IP,
-        port: PORT,
-        path: '/' + NEED_TO_DRINK_ROUTE,
-        method: 'POST'
-    }, (res) => {
-        console.log(`STATUS: ${res.statusCode}`);
-    })
+    try{
+        http.request({
+            hostname: IP,
+            port: PORT,
+            path: '/' + NEED_TO_DRINK_ROUTE,
+            method: 'POST'
+        }, (res) => {
+            console.log(`STATUS: ${res.statusCode}`);
+        })
+    }
+    catch(e){
+        console.error(e)
+    }
 }
 
 module.exports = 
