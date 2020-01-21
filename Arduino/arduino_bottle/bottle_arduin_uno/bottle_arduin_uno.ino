@@ -7,7 +7,9 @@ const int trigPin = 9;
 const int echoPin = 10;
 // defines variables
 long duration;
-int distance;
+float distance;
+const float BOTTLE_HEIGHT = 8;
+const float BOTTLE_MIN_HEIGHT = 3;
 
 void setup() {
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
@@ -17,7 +19,7 @@ void setup() {
 }
 
 //const unsigned long fiveMinutes = 5 * 60 * 1000UL;
-const unsigned long fiveMinutes = 6000UL;
+const unsigned long fiveMinutes = 1000UL;
 unsigned long lastSampleTime = 0 - fiveMinutes;  // initialize such that a reading is due the first time through loop()
 unsigned long now;
 
@@ -34,16 +36,26 @@ void loop() {
     digitalWrite(trigPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
+    
     // Reads the echoPin, returns the sound wave travel time in microseconds
     duration = pulseIn(echoPin, HIGH);
     // Calculating the distance
-    distance= duration*0.034/2;
+    distance = (int)(duration * 0.034 / 2) - BOTTLE_MIN_HEIGHT;
+    distance = distance > BOTTLE_HEIGHT ? BOTTLE_HEIGHT : distance;
+    float oldMin = 0;
+    float newMin = 0;
+    float newRange = 100;
+    float oldRange = BOTTLE_HEIGHT;    
+    float newDistance = (((BOTTLE_HEIGHT - distance) - oldMin) * newRange / oldRange) + newMin;
+   
+//    float distancePercentage = (int)(100 - (distance / BOTTLE_HEIGHT * 100));
+    
     // Prints the distance on the Serial Monitor
     Serial.print("Distance: ");
+    Serial.println(newDistance);
     Serial.println(distance);
-    
     char txt[50];
-    sprintf(txt,"bottle:%d;\n",distance);
+    sprintf(txt,"bottle:%d;\n", (int)newDistance );
     nodeSerial.print(txt);
   }
 }
