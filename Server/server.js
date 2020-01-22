@@ -24,7 +24,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Epxress route config
-app.use("/uv", uv.SaveUv);
+app.use("/uv", uv.uvRouter);
 app.use("/posture", posture);
 app.use("/weather", weather.weatherRouter);
 app.use("/movement", movement);
