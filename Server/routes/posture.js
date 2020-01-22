@@ -9,7 +9,7 @@ postureRouter.get('/', getMethod);
 postureRouter.post('/', postMethod);
 
 function getMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+  let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
   console.log("Received posture get request! " + currTime);
 
   try {
@@ -28,7 +28,7 @@ function getMethod(req, res) {
 }
 
 function postMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+  let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
   console.log("Received posture post request! " + currTime);
   console.dir(req.body);
 

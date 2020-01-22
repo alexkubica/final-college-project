@@ -9,7 +9,7 @@ bottleRouter.get('/', getMethod);
 bottleRouter.post('/', postMethod);
 
 function getMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+  let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
   console.log("Received bottle get request! " + currTime);
 
   try {
@@ -28,7 +28,7 @@ function getMethod(req, res) {
 }
 
 function postMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+  let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
   console.log("Received bottle post request! " + currTime);
   console.dir(req.body);
 

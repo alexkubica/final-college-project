@@ -9,7 +9,7 @@ heartbeatRouter.get('/', getMethod);
 heartbeatRouter.post('/', postMethod);
 
 function getMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+  let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
   console.log("Received heartbeat get request! " + currTime);
 
   try {
@@ -28,23 +28,25 @@ function getMethod(req, res) {
 }
 
 function postMethod(req, res) {
-  //console.log("Received heartbeat post request! " + currTime);
   console.dir(req.body);
   var rowToSave = req.body
-  SaveHeartBeat(rowToSave)
+  SaveHeartBeat(rowToSave,res)
 }
 
-const SaveHeartBeat = (p_rowToSave) =>
+const SaveHeartBeat = (p_rowToSave,p_res) =>
 {
   try {
-   let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+   let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
    p_rowToSave.dateReceived = currTime;
    console.log(p_rowToSave)
 
     mongoDB((db, close) => {
       db.collection(HEARTBEAT_COLLECTION).insertOne(p_rowToSave, (err) => {
         if (err) throw err;
-        //res.sendStatus(200);
+        
+        if(p_res != undefined)
+           p_res.sendStatus(200);
+
         close();
       });
     });

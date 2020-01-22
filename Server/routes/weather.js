@@ -9,7 +9,7 @@ weatherRouter.get('/', getMethod);
 weatherRouter.post('/', postMethod);
 
 function getMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+  let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
   console.log("Received weather get request! " + currTime);
 
   try {
@@ -30,20 +30,23 @@ function getMethod(req, res) {
 function postMethod(req, res) {
   console.dir(req.body);
   let rowToSave = req.body
-  SaveWeather(rowToSave);  
+  SaveWeather(rowToSave,res);  
 }
 
-const SaveWeather = (p_rowToSave) =>
+const SaveWeather = (p_rowToSave,p_res=undefined) =>
 {
   try {
-    let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+    let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
     p_rowToSave.dateReceived = currTime;
     console.log(p_rowToSave)
 
     mongoDB((db, close) => {
       db.collection(WEATHER_COLLECTION).insertOne(p_rowToSave, (err) => {
         if (err) throw err;
-        //res.sendStatus(200);
+
+        if(p_res != undefined)
+           p_res.sendStatus(200);
+           
         close();
       });
     });

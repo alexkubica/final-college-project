@@ -9,7 +9,7 @@ uvRouter.get('/', getMethod);
 uvRouter.post('/', postMethod);
 
 function getMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+  let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
   console.log("Received uv get request! " + currTime);
 
   try {
@@ -27,19 +27,25 @@ function getMethod(req, res) {
   }
 }
 
-function postMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
-  console.log("Received uv post request! " + currTime);
+function postMethod(req, res) {    
   console.dir(req.body);
+  var rowToSave = req.body
+  SaveUv(rowToSave,res);
+}
 
+const SaveUv = (p_rowToSave,p_res = undefined) =>
+{
   try {
-    var rowToSave = req.body
-    rowToSave.dateReceived = currTime;
+    let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
+    p_rowToSave.dateReceived = currTime;
 
     mongoDB((db, close) => {
-      db.collection(UV_COLLECTION).insertOne(rowToSave, (err) => {
+      db.collection(UV_COLLECTION).insertOne(p_rowToSave, (err) => {
         if (err) throw err;
-        res.sendStatus(200);
+
+        if(p_res != undefined)
+           p_res.sendStatus(200);
+
         close();
       });
     });
@@ -50,4 +56,8 @@ function postMethod(req, res) {
   }
 }
 
-module.exports = uvRouter;
+module.exports = 
+{
+  uvRouter,
+  SaveUv
+};
