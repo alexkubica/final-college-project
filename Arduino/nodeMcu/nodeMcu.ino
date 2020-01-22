@@ -8,9 +8,9 @@ int stat = WL_IDLE_STATUS;
 
 bool sendPackets = true;
 
-const char* ssid = "David";
-const char* password = "19071969";
-const String serverIp = "http://192.168.1.155:8080";
+const char* ssid = "Kubica";
+const char* password = "Nice2019";
+const String serverIp = "http://192.168.43.15:8080";
 
 WiFiServer server(80);
 

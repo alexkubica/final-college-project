@@ -41,13 +41,13 @@ export function graphSubtitleText() {
 
 export const GRAPH_DATE_FORMAT = "%d/%m/%Y %H:%M:%S";
 
-const USE_REAL_API = false;
+const USE_REAL_API = true;
 const DATA_SIZE = 100;
 export const SECONDS_IN_MS = 1000;
 export const MINUTES_IN_MS = 60 * SECONDS_IN_MS;
 export const HOURS_IN_MS = 60 * MINUTES_IN_MS;
 export const DAYS_IN_MS = 24 * HOURS_IN_MS;
-const SERVER_URL = "http://192.168.1.239:8080";
+const SERVER_URL = "http://192.168.43.15:8080";
 
 function fakeUVData() {
   // fake data: uvs between 0 UV and 15 UV in one hour intervals
@@ -148,8 +148,7 @@ export async function getHeartRateData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        // TODO get value from server
-        value: getRandomFloatInclusive(0, 100)
+        value: obj.BPM
       };
     });
   } else {
