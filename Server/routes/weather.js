@@ -28,18 +28,22 @@ function getMethod(req, res) {
 }
 
 function postMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
-  console.log("Received weather post request! " + currTime);
   console.dir(req.body);
+  let rowToSave = req.body
+  SaveWeather(rowToSave);  
+}
 
+const SaveWeather = (p_rowToSave) =>
+{
   try {
-    var rowToSave = req.body
-    rowToSave.dateReceived = currTime;
+    let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+    p_rowToSave.dateReceived = currTime;
+    console.log(p_rowToSave)
 
     mongoDB((db, close) => {
-      db.collection(WEATHER_COLLECTION).insertOne(rowToSave, (err) => {
+      db.collection(WEATHER_COLLECTION).insertOne(p_rowToSave, (err) => {
         if (err) throw err;
-        res.sendStatus(200);
+        //res.sendStatus(200);
         close();
       });
     });
@@ -50,4 +54,7 @@ function postMethod(req, res) {
   }
 }
 
-module.exports = weatherRouter;
+module.exports = {
+  weatherRouter,
+  SaveWeather
+};

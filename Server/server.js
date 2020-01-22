@@ -26,9 +26,9 @@ app.use(bodyParser.json());
 // Epxress route config
 app.use("/uv", uv);
 app.use("/posture", posture);
-app.use("/weather", weather);
+app.use("/weather", weather.weatherRouter);
 app.use("/movement", movement);
-app.use("/heartbeat", heartbeat);
+app.use("/heartbeat", heartbeat.heartbeatRouter);
 app.use("/bottle", bottle);
 app.use("/jarvisBrain", jarvisBrain);
 app.use("/HowYouDoin",howYouDoin)
