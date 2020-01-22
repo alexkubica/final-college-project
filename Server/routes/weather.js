@@ -9,7 +9,7 @@ weatherRouter.get('/', getMethod);
 weatherRouter.post('/', postMethod);
 
 function getMethod(req, res) {
-  let currTime = moment().format('DD/MM/YYYY HHmm:ss');
+  let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
   console.log("Received weather get request! " + currTime);
 
   try {
