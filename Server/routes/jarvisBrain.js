@@ -15,7 +15,7 @@ function postMethod_IsOnline(req, res) {
         return;
     }
 
-    let currTime = moment().format('DD/MM/YYYY hh:mm:ss');
+    let currTime = moment().format('DD/MM/YYYY HH:mm:ss');
     console.log("Server is online for " + arduinoName + "! time: " + currTime);
     res.json({"jarvis mate":arduinoName,"time":currTime});
 }
