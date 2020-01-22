@@ -26,7 +26,7 @@ function start()
 
             //await BottleLogic();
             //heartbeat.SaveHeartBeat({'BPM': number1})
-            weather.SaveWeather({"Temprature":"14°C", "Humidity":"33%"})
+            //weather.SaveWeather({"Temprature":"14°C", "Humidity":"33%"})
 
             lockObj = false;
         }
