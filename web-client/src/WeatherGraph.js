@@ -39,15 +39,6 @@ export default function WeatherGraph({ data }) {
         labels: {
           format: "{value}°C"
         }
-      },
-      {
-        title: {
-          text: "Humidity"
-        },
-        opposite: true,
-        labels: {
-          format: "{value}%"
-        }
       }
     ],
     tooltip: {
@@ -61,21 +52,11 @@ export default function WeatherGraph({ data }) {
       {
         name: "Temperature",
         data: data.map(obj => {
-          return [moment(obj.timestamp).valueOf(), obj.value.temperature];
+          return [moment(obj.timestamp).valueOf(), obj.value];
         }),
         tooltip: {
           valueSuffix: "°C"
         }
-      },
-      {
-        name: "Humidity",
-        data: data.map(obj => {
-          return [moment(obj.timestamp).valueOf(), obj.value.humidity];
-        }),
-        tooltip: {
-          valueSuffix: "%"
-        },
-        yAxis: 1
       }
     ]
   };

@@ -41,54 +41,160 @@ export function graphSubtitleText() {
 
 export const GRAPH_DATE_FORMAT = "%d/%m/%Y %H:%M:%S";
 
-const USE_REAL_API = true;
+const USE_REAL_API = false;
 const DATA_SIZE = 100;
 export const SECONDS_IN_MS = 1000;
 export const MINUTES_IN_MS = 60 * SECONDS_IN_MS;
 export const HOURS_IN_MS = 60 * MINUTES_IN_MS;
 export const DAYS_IN_MS = 24 * HOURS_IN_MS;
-const SERVER_URL = "http://192.168.43.15:8080";
+const SERVER_URL = "http://localhost:8080";
 
 function fakeUVData() {
   // fake data: uvs between 0 UV and 15 UV in one hour intervals
   return new Array(DATA_SIZE).fill().map((x, i, arr) => {
     return {
       timestamp: new Date(new Date().getTime() - i * HOURS_IN_MS),
-      value: getRandomFloatInclusive(0, 15)
+      value: getRandomFloatInclusive(0, 2)
     };
   });
 }
 
 function fakeHeartRateData() {
-  // fake data: heart rates between 30 to 150 in 30 seconds intervals
+  return [
+    {
+      timestamp: new Date(new Date().getTime() - 0 * MINUTES_IN_MS),
+      value: 70
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 1 * MINUTES_IN_MS),
+      value: 73
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 2 * MINUTES_IN_MS),
+      value: 74
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 3 * MINUTES_IN_MS),
+      value: 72
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 4 * MINUTES_IN_MS),
+      value: 73
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 5 * MINUTES_IN_MS),
+      value: 77
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 6 * MINUTES_IN_MS),
+      value: 80
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 7 * MINUTES_IN_MS),
+      value: 87
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 8 * MINUTES_IN_MS),
+      value: 90
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 9 * MINUTES_IN_MS),
+      value: 99
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 10 * MINUTES_IN_MS),
+      value: 111
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 11 * MINUTES_IN_MS),
+      value: 125
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 12 * MINUTES_IN_MS),
+      value: 123
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 13 * MINUTES_IN_MS),
+      value: 110
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 14 * MINUTES_IN_MS),
+      value: 94
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 15 * MINUTES_IN_MS),
+      value: 72
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 16 * MINUTES_IN_MS),
+      value: 70
+    }
+  ];
+
   return new Array(DATA_SIZE).fill().map((x, i, arr) => {
     return {
       timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
-      value: getRandomIntInclusive(30, 150)
+      value: getRandomIntInclusive(60, 70)
     };
   });
 }
 
 function fakePostureData() {
-  // fake data: postures between 0 to 360 in 30 seconds intervals
-  return new Array(DATA_SIZE).fill().map((x, i, arr) => {
+  let x = new Array(30).fill().map((x, i, arr) => {
     return {
-      timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
-      value: getRandomFloatInclusive(0, 360)
+      timestamp: new Date(new Date().getTime() - i * 1 * MINUTES_IN_MS),
+      value: getRandomFloatInclusive(85, 95)
     };
   });
+
+  x[20].value = 163;
+
+  x[10].value = 5;
+  x[11].value = 3;
+
+  x[25].value = 110;
+  x[26].value = 112;
+  x[27].value = 113;
+  x[28].value = 113;
+
+  return x;
 }
 
 function fakeWeatherData() {
-  // fake data: weathers' temparature between -30 to 30 in half day intervals
-  // humidity between 0 to 100
+  return [
+    {
+      timestamp: new Date(new Date().getTime() - 0 * DAYS_IN_MS),
+      value: 5
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 1 * DAYS_IN_MS),
+      value: 6
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 2 * DAYS_IN_MS),
+      value: 7
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 3 * DAYS_IN_MS),
+      value: 6
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 4 * DAYS_IN_MS),
+      value: 9
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 5 * DAYS_IN_MS),
+      value: 10
+    },
+    {
+      timestamp: new Date(new Date().getTime() - 6 * DAYS_IN_MS),
+      value: 10
+    }
+  ];
   return new Array(DATA_SIZE).fill().map((x, i, arr) => {
     return {
       timestamp: new Date(new Date().getTime() - (i * DAYS_IN_MS) / 2),
-      value: {
-        temperature: getRandomFloatInclusive(-30, 30),
-        humidity: getRandomFloatInclusive(0, 100)
-      }
+      value: getRandomFloatInclusive(5, 10)
     };
   });
 }
@@ -107,8 +213,8 @@ function fakeBottleVData() {
   // fake data: bottles between 0 to 100 in 30 seconds intervals
   return new Array(DATA_SIZE).fill().map((x, i, arr) => {
     return {
-      timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
-      value: getRandomFloatInclusive(0, 100)
+      timestamp: new Date(new Date().getTime() - i * 1 * HOURS_IN_MS),
+      value: getRandomFloatInclusive(0, 1500)
     };
   });
 }
@@ -127,7 +233,7 @@ export async function getUVData() {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
         // TODO get value from server
-        value: getRandomFloatInclusive(0, 100)
+        value: obj.UV
       };
     });
   } else {
@@ -169,8 +275,7 @@ export async function getPostureData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        // TODO get value from server
-        value: getRandomFloatInclusive(0, 100)
+        value: obj.Posture
       };
     });
   } else {
@@ -191,8 +296,7 @@ export async function getWeatherData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        // TODO get value from server
-        value: getRandomFloatInclusive(0, 100)
+        value: obj.Temprature
       };
     });
   } else {
@@ -213,8 +317,7 @@ export async function getMovementData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        // TODO get value from server
-        value: getRandomFloatInclusive(0, 100)
+        value: obj.Movement
       };
     });
   } else {

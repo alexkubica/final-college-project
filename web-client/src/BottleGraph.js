@@ -43,10 +43,10 @@ export default function BottleGraph({ data }) {
         text: "Bottle water capacity"
       },
       labels: {
-        format: "{value}%"
+        format: "{value} ml"
       },
       min: 0,
-      max: 100
+      max: 3000
     },
     tooltip: {
       xDateFormat: GRAPH_DATE_FORMAT,
@@ -154,7 +154,7 @@ export default function BottleGraph({ data }) {
         y: 16
       },
       min: 0,
-      max: 100,
+      max: 3000,
       title: {
         y: -90,
         text: "Bottle capacity"
@@ -185,11 +185,11 @@ export default function BottleGraph({ data }) {
         dataLabels: {
           format:
             '<div style="text-align:center">' +
-            '<span style="font-size:25px">{y}%</span><br/>' +
+            '<span style="font-size:25px">{y} ml</span><br/>' +
             "</div>"
         },
         tooltip: {
-          valueSuffix: "%"
+          valueSuffix: " ml"
         }
       }
     ]

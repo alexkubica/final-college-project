@@ -57,7 +57,7 @@ function getCards(data, classes) {
         </Fragment>
       }
       content={
-        data.uvData.length > 0 ? (
+        !!data.uvData && data.uvData.length > 0 ? (
           <div>
             <div>
               Last recorded UV Index:{" "}
@@ -84,16 +84,11 @@ function getCards(data, classes) {
         </Fragment>
       }
       content={
-        data.weatherData.length > 0 ? (
+        !!data.weatherData && data.weatherData.length > 0 ? (
           <div className={classes.weatherConent}>
             <span>
-              Temperature:{" "}
-              {data.weatherData[data.weatherData.length - 1].value.temperature}
+              Temperature: {data.weatherData[data.weatherData.length - 1].value}
               °C
-            </span>
-            <span>
-              Humidity:{" "}
-              {data.weatherData[data.weatherData.length - 1].value.humidity}%
             </span>
           </div>
         ) : (
@@ -113,7 +108,7 @@ function getCards(data, classes) {
         </Fragment>
       }
       content={
-        data.heartRateData.length > 0 ? (
+        !!data.heartRateData && data.heartRateData.length > 0 ? (
           <div>
             <div>
               Last recorded heart rate:{" "}
@@ -141,7 +136,7 @@ function getCards(data, classes) {
         </Fragment>
       }
       content={
-        data.postureData.length > 0
+        !!data.postureData && data.postureData.length > 0
           ? `${data.postureData[data.postureData.length - 1].value}°`
           : "No data"
       }
@@ -158,7 +153,7 @@ function getCards(data, classes) {
         </Fragment>
       }
       content={
-        data.movementData.length > 0
+        !!data.movementData && data.movementData.length > 0
           ? `Moved for ${
               data.movementData[data.movementData.length - 1].value
             } minutes straight last time `
@@ -177,8 +172,8 @@ function getCards(data, classes) {
         </Fragment>
       }
       content={
-        data.bottleData.length > 0
-          ? `${data.bottleData[data.bottleData.length - 1].value}%`
+        !!data.bottleData && data.bottleData.length > 0
+          ? `${data.bottleData[data.bottleData.length - 1].value} ml water left`
           : "No data"
       }
     />

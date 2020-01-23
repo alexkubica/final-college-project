@@ -28,8 +28,8 @@ export default function HeartRateGraph({ data }) {
       text: graphSubtitleText()
     },
     xAxis: {
-      type: "datetime",
-      minRange: 5 * MINUTES_IN_MS
+      type: "datetime"
+      // minRange: 5 * MINUTES_IN_MS
     },
     yAxis: {
       title: {
