@@ -1,10 +1,12 @@
 #include<SoftwareSerial.h>
+
 // pin configuration
 SoftwareSerial nodeSerial(5,6);
 
 // defines pins numbers
 const int trigPin = 9;
 const int echoPin = 10;
+
 // defines variables
 long duration;
 float distance;
