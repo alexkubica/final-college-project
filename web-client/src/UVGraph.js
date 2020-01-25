@@ -27,7 +27,7 @@ export default function UVGraph({ data }) {
     },
 
     title: {
-      text: "UV Index over time (2019)"
+      text: "UV Index over time"
     },
 
     subtitle: {
@@ -36,8 +36,8 @@ export default function UVGraph({ data }) {
 
     xAxis: {
       type: "datetime",
-      min: Date.UTC(2019, 10, 1),
-      max: Date.UTC(2019, 11, 31, 23, 59, 59),
+      // min: Date.UTC(2019, 10, 1),
+      // max: Date.UTC(2019, 11, 31, 23, 59, 59),
       labels: {
         align: "left",
         x: 5,
@@ -96,8 +96,9 @@ export default function UVGraph({ data }) {
         },
         turboThreshold: Number.MAX_VALUE, // #3404, remove after 4.0.5 release
         data: data.map(obj => {
-          const d = moment(obj.timestamp);
-          return [d.valueOf(), d.hour(), obj.value];
+          const h = moment(obj.timestamp);
+          const d = moment(obj.timestamp).startOf("day");
+          return [d.valueOf(), h.hour(), obj.value];
         })
       }
     ]

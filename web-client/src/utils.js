@@ -50,8 +50,141 @@ export const DAYS_IN_MS = 24 * HOURS_IN_MS;
 const SERVER_URL = "http://localhost:8080";
 
 function fakeUVData() {
-  // fake data: uvs between 0 UV and 15 UV in one hour intervals
-  return new Array(DATA_SIZE).fill().map((x, i, arr) => {
+  return [
+    {
+      timestamp: Date.UTC(2020, 1, 25, -2),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, -1),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 0),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 1),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 2),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 3),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 4),
+      value: 0.5
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 5),
+      value: 1
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 6),
+      value: 1.7
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 7),
+      value: 2
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 8),
+      value: 2.3
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 9),
+      value: 3.5
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 10),
+      value: 3.7
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 11),
+      value: 3.2
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 12),
+      value: 3
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 13),
+      value: 2.6
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 14),
+      value: 1.9
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 15),
+      value: 1.3
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 16),
+      value: 1
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 17),
+      value: 0.8
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 18),
+      value: 0.7
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 19),
+      value: 0.3
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 20),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 21),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 22),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 23),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 24),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 25),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 26),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 27),
+      value: 0
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 28),
+      value: 0.3
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 29),
+      value: 0.7
+    },
+    {
+      timestamp: Date.UTC(2020, 1, 25, 30),
+      value: 1.1
+    }
+  ];
+  return new Array(100).fill().map((x, i, arr) => {
     return {
       timestamp: new Date(new Date().getTime() - i * HOURS_IN_MS),
       value: getRandomFloatInclusive(0, 2)
@@ -200,7 +333,6 @@ function fakeWeatherData() {
 }
 
 function fakeMovementData() {
-  // fake data: movement durations between 0 to 29 in 30 seconds intervals
   return new Array(DATA_SIZE).fill().map((x, i, arr) => {
     return {
       timestamp: new Date(new Date().getTime() - i * 30 * SECONDS_IN_MS),
@@ -210,7 +342,6 @@ function fakeMovementData() {
 }
 
 function fakeBottleVData() {
-  // fake data: bottles between 0 to 100 in 30 seconds intervals
   return new Array(DATA_SIZE).fill().map((x, i, arr) => {
     return {
       timestamp: new Date(new Date().getTime() - i * 1 * HOURS_IN_MS),
