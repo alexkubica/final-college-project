@@ -146,7 +146,7 @@ void sendGyroTempData(int temperature, int posture)
 
     Serial.print("posture is:");
     Serial.println(posture);
-    nodeSerial.print("posture:");
+    nodeSerial.print("post:");
     nodeSerial.print(posture);
     nodeSerial.println(";");
 }
