@@ -72,9 +72,12 @@ void parseSerialBeforeSend (char* rawInput ){
   String data(rawInput);
   int indexOfColon = data.indexOf(":");
   int indexOfSemiColon = data.indexOf(";");
-  if(data.length() > 1 && indexOfColon > 1){    
-    Serial.println(data.substring(0,indexOfColon));
-    Serial.println(data.substring(indexOfColon + 1,indexOfSemiColon));
+  if(data.length() > 1 && indexOfColon > 0){
+    Serial.print("data:");
+    Serial.print(data.substring(0,indexOfColon));
+    Serial.print(",");  
+    Serial.print(data.substring(indexOfColon + 1,indexOfSemiColon));
+    Serial.print("\n");  
     sendData1(data.substring(0,indexOfColon),data.substring(indexOfColon + 1,indexOfSemiColon));
   }
 }
@@ -83,15 +86,18 @@ void sendData1(String sensorType,String sensorData){
   if(sendPackets == true){
     Serial.print("sendind packet to:");
     Serial.println(serverIp + "/" + sensorType);
+    Serial.print("body:");
+    Serial.println("{\"data\":" + sensorData + "}");
     HTTPClient http;    //Declare object of class HTTPClient
     
     http.begin(serverIp + "/" + sensorType);      //Specify request destination
     http.addHeader("Content-Type", "application/json");  //Specify content-type header
-    int httpCode = http.POST("{\"data\":" + sensorData + "\n}");   //Send the request
+    int httpCode = http.POST("{\"data\":" + sensorData + "}");   //Send the request
     String payload = http.getString();                  //Get the response payload
     
-    Serial.println(httpCode);   //Print HTTP return code
-    Serial.println(payload);    //Print request response payload
+    Serial.print("http code:");
+    Serial.print(httpCode);   //Print HTTP return code
+    Serial.println();
     
     http.end();  //Close connection
   }
@@ -108,10 +114,11 @@ void sendConnected(){
     int httpCode = http.POST("{\"name\":\"bottle\"}");   //Send the request
     
     String payload = http.getString();                  //Get the response payload
-    
-    Serial.println(httpCode);   //Print HTTP return code
-    Serial.println(payload);    //Print request response payload
-    
+
+    Serial.print("http code:");
+    Serial.print(httpCode);   //Print HTTP return code
+    Serial.println();
+        
     http.end();  //Close connection
   }
 }
