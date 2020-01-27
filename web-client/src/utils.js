@@ -41,7 +41,7 @@ export function graphSubtitleText() {
 
 export const GRAPH_DATE_FORMAT = "%d/%m/%Y %H:%M:%S";
 
-const USE_REAL_API = false;
+const USE_REAL_API = true;
 const DATA_SIZE = 100;
 export const SECONDS_IN_MS = 1000;
 export const MINUTES_IN_MS = 60 * SECONDS_IN_MS;
@@ -363,8 +363,7 @@ export async function getUVData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        // TODO get value from server
-        value: obj.UV
+        value: obj.data
       };
     });
   } else {
@@ -374,7 +373,7 @@ export async function getUVData() {
 
 export async function getHeartRateData() {
   if (USE_REAL_API) {
-    let response = await fetch(`${SERVER_URL}/heartbeat`, {
+    let response = await fetch(`${SERVER_URL}/heart`, {
       method: "get",
       headers: {
         "Content-Type": "application/json"
@@ -385,7 +384,7 @@ export async function getHeartRateData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        value: obj.BPM
+        value: obj.data
       };
     });
   } else {
@@ -395,7 +394,7 @@ export async function getHeartRateData() {
 
 export async function getPostureData() {
   if (USE_REAL_API) {
-    let response = await fetch(`${SERVER_URL}/posture`, {
+    let response = await fetch(`${SERVER_URL}/post`, {
       method: "get",
       headers: {
         "Content-Type": "application/json"
@@ -406,7 +405,7 @@ export async function getPostureData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        value: obj.Posture
+        value: obj.data
       };
     });
   } else {
@@ -427,7 +426,7 @@ export async function getWeatherData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        value: obj.Temprature
+        value: obj.data
       };
     });
   } else {
@@ -448,7 +447,7 @@ export async function getMovementData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        value: obj.Movement
+        value: obj.data
       };
     });
   } else {
@@ -469,7 +468,7 @@ export async function getBottleData() {
     return data.map(obj => {
       return {
         timestamp: moment(obj.dateReceived, "DD/MM/YYYY HH:mm:ss").toDate(),
-        value: obj.data
+        value: (obj.data / 100) * 800
       };
     });
   } else {

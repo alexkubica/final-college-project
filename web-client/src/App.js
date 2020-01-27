@@ -19,7 +19,8 @@ import {
   getWeatherData,
   getMovementData,
   getBottleData,
-  MINUTES_IN_MS
+  MINUTES_IN_MS,
+  SECONDS_IN_MS
 } from "./utils";
 import "./App.css";
 
@@ -41,8 +42,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     uvData: [],
+    weatherData: [],
     heartRateData: [],
-    distanceData: [],
+    postureData: [],
     movementData: [],
     bottleData: []
   });
@@ -148,7 +150,7 @@ function App() {
     load(fetchAllData);
     const interval = setInterval(() => {
       fetchAllData();
-    }, 1 * MINUTES_IN_MS);
+    }, 2 * SECONDS_IN_MS);
     return () => clearInterval(interval);
   }, []);
 

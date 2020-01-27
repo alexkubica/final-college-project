@@ -46,11 +46,11 @@ export default function BottleGraph({ data }) {
         format: "{value} ml"
       },
       min: 0,
-      max: 3000
+      max: 1000
     },
     tooltip: {
       xDateFormat: GRAPH_DATE_FORMAT,
-      valueSuffix: "%"
+      valueSuffix: " ml"
     },
     legend: {
       enabled: false
@@ -154,7 +154,7 @@ export default function BottleGraph({ data }) {
         y: 16
       },
       min: 0,
-      max: 3000,
+      max: 800,
       title: {
         y: -90,
         text: "Bottle capacity"
